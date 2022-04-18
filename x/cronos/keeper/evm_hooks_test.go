@@ -42,7 +42,7 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 				receipt := &ethtypes.Receipt{
 					Logs: logs,
 				}
-				err := suite.app.EvmKeeper.PostTxProcessing(suite.ctx, common.Address{}, nil, receipt)
+				err := suite.app.EvmKeeper.PostTxProcessing(suite.ctx, nil, receipt)
 				suite.Require().NoError(err)
 			},
 		},
@@ -64,7 +64,7 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 				receipt := &ethtypes.Receipt{
 					Logs: logs,
 				}
-				err = suite.app.EvmKeeper.PostTxProcessing(suite.ctx, common.Address{}, nil, receipt)
+				err = suite.app.EvmKeeper.PostTxProcessing(suite.ctx, nil, receipt)
 				suite.Require().Error(err)
 			},
 		},
@@ -94,7 +94,7 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 				receipt := &ethtypes.Receipt{
 					Logs: logs,
 				}
-				err = suite.app.EvmKeeper.PostTxProcessing(suite.ctx, common.Address{}, nil, receipt)
+				err = suite.app.EvmKeeper.PostTxProcessing(suite.ctx, nil, receipt)
 				suite.Require().NoError(err)
 
 				balance = suite.app.BankKeeper.GetBalance(suite.ctx, sdk.AccAddress(contract.Bytes()), denom)
@@ -132,7 +132,7 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 				receipt := &ethtypes.Receipt{
 					Logs: logs,
 				}
-				err = suite.app.EvmKeeper.PostTxProcessing(suite.ctx, common.Address{}, nil, receipt)
+				err = suite.app.EvmKeeper.PostTxProcessing(suite.ctx, nil, receipt)
 				// should fail, because of not gravity denom name
 				suite.Require().Error(err)
 			},
@@ -167,7 +167,7 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 				receipt := &ethtypes.Receipt{
 					Logs: logs,
 				}
-				err = suite.app.EvmKeeper.PostTxProcessing(suite.ctx, common.Address{}, nil, receipt)
+				err = suite.app.EvmKeeper.PostTxProcessing(suite.ctx, nil, receipt)
 				suite.Require().NoError(err)
 
 				// sender's balance deducted
@@ -221,7 +221,7 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 				receipt := &ethtypes.Receipt{
 					Logs: logs,
 				}
-				err = suite.app.EvmKeeper.PostTxProcessing(suite.ctx, common.Address{}, nil, receipt)
+				err = suite.app.EvmKeeper.PostTxProcessing(suite.ctx, nil, receipt)
 				// should fail, because of not ibc denom name
 				suite.Require().Error(err)
 			},
