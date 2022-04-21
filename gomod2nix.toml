@@ -1074,7 +1074,7 @@
     type = "git"
     url = "https://github.com/crypto-org-chain/ibc-go"
     rev = "7076d27acc5933cfaaf176d25660f9582ca42345"
-    sha256 = "059aqdj683pmz2k2yc12rw1l15vdpbfiky6falbpn3zx8mgap45p"
+    sha256 = "04y650niw0jm67y77v8fl7wcasjalfr69cf1fsxy34db6r6y5dq7"
 
 ["github.com/cosmos/ledger-cosmos-go"]
   sumVersion = "v0.11.1"
@@ -3322,6 +3322,7 @@
 ["github.com/peggyjv/gravity-bridge/module/v2"]
   sumVersion = "v2.0.0-20220421052611-ae947806716e"
   vendorPath = "github.com/crypto-org-chain/gravity-bridge/module/v2"
+  relPath = "module"
   ["github.com/peggyjv/gravity-bridge/module/v2".fetch]
     type = "git"
     url = "https://github.com/crypto-org-chain/gravity-bridge"
