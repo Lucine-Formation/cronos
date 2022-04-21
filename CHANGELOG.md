@@ -3,7 +3,7 @@
 ## Unreleased
 
 ### State Machine Breaking
-- [cronos#429](https://github.com/crypto-org-chain/cronos/pull/429) Update ethermint to main, ibc-go to v3.0.0 and cosmos sdk to v0.45.3
+- [cronos#429](https://github.com/crypto-org-chain/cronos/pull/429) Update ethermint to main, ibc-go to v3.0.0, cosmos sdk to v0.45.3 and gravity to latest
 
 *January 21, 2022*
 

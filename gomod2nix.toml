@@ -1067,14 +1067,6 @@
     rev = "d99448032e95a6ce05d342737cd745a20ef0b6ce"
     sha256 = "115964xzwlr8j0l8f5x0v31f5hnxhd0rh5cvgy560l0dd77i735k"
 
-["github.com/cosmos/ibc-go/v2"]
-  sumVersion = "v2.0.0"
-  ["github.com/cosmos/ibc-go/v2".fetch]
-    type = "git"
-    url = "https://github.com/cosmos/ibc-go"
-    rev = "dc416084694b6ed1d45baf50cc408b747daa90aa"
-    sha256 = "0wbw73pv7mnbaawfcjwyvpnxxkj4iz7cy8cg3d5cad3p1fmqzmx1"
-
 ["github.com/cosmos/ibc-go/v3"]
   sumVersion = "v3.0.0-hooks"
   vendorPath = "github.com/crypto-org-chain/ibc-go/v3"
@@ -1372,14 +1364,6 @@
     url = "https://github.com/edsrzf/mmap-go"
     rev = "188cc3b666ba704534fa4f96e9e61f21f1e1ba7c"
     sha256 = "0ajmkk5cj6xmbngx3nhar7672i2vrkwpnbv1f26i5p4f5aydhl4k"
-
-["github.com/enigmampc/btcutil"]
-  sumVersion = "v1.0.3-0.20200723161021-e2fb6adb2a25"
-  ["github.com/enigmampc/btcutil".fetch]
-    type = "git"
-    url = "https://github.com/enigmampc/btcutil"
-    rev = "e2fb6adb2a25f868283c4f243c873ad6b4894974"
-    sha256 = "0r2gf20acxnrcrch57hvgg8qp8ic96w6bx0j080cfya04xib3dxv"
 
 ["github.com/envoyproxy/go-control-plane"]
   sumVersion = "v0.10.1"
@@ -2597,12 +2581,12 @@
     sha256 = "14af2pa0ssyp8bp2mvdw184s5wcysk6akil3wzxmr05wwy951iwn"
 
 ["github.com/kkdai/bstream"]
-  sumVersion = "v1.0.0"
+  sumVersion = "v0.0.0-20161212061736-f391b8402d23"
   ["github.com/kkdai/bstream".fetch]
     type = "git"
     url = "https://github.com/kkdai/bstream"
-    rev = "a8d27c5aa8eedad6b6683069d64b96ece63696db"
-    sha256 = "02brc58hhkkfhgb4yxjv3wshq355w533q7d49qrlfkhk265qph7w"
+    rev = "f391b8402d23024e7c0f624b31267a89998fca95"
+    sha256 = "1hd9caz0yf3r8kciw2pqwrsr8z4w0rhbqv1z7iq08d0542s05j3z"
 
 ["github.com/klauspost/compress"]
   sumVersion = "v1.13.6"
@@ -3335,14 +3319,14 @@
     rev = "8b1b92947f46224e3b97bb1a3a5b0382be00d31e"
     sha256 = "0f146yjqwx2mr110kl8scjhqd08hys7vr5z0d0a3lskb6yy22gfg"
 
-["github.com/peggyjv/gravity-bridge/module"]
-  sumVersion = "v0.3.9"
-  relPath = "module"
-  ["github.com/peggyjv/gravity-bridge/module".fetch]
+["github.com/peggyjv/gravity-bridge/module/v2"]
+  sumVersion = "v2.0.0-20220421052611-ae947806716e"
+  vendorPath = "github.com/crypto-org-chain/gravity-bridge/module/v2"
+  ["github.com/peggyjv/gravity-bridge/module/v2".fetch]
     type = "git"
-    url = "https://github.com/peggyjv/gravity-bridge"
-    rev = "fef4573e412be03a622496b0bd24365dd95265b8"
-    sha256 = "11b90iy4h407j84xdjqms1p2hhb3w5wi6jh463bp5akmlajis003"
+    url = "https://github.com/crypto-org-chain/gravity-bridge"
+    rev = "ae947806716eef2a1de885d81c665a13cb9561f2"
+    sha256 = "1bm87iaa7yjz0gjjqrqlgx82rgsnkwx29fkygi2j6jkf51a5wf5a"
 
 ["github.com/pelletier/go-toml"]
   sumVersion = "v1.9.4"

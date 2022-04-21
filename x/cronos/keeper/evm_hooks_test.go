@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math/big"
 
-	gravitytypes "github.com/peggyjv/gravity-bridge/module/x/gravity/types"
+	gravitytypes "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/types"
 
 	"github.com/crypto-org-chain/cronos/app"
 	keepertest "github.com/crypto-org-chain/cronos/x/cronos/keeper/mock"

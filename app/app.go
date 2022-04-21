@@ -107,9 +107,9 @@ import (
 	feemarketkeeper "github.com/tharsis/ethermint/x/feemarket/keeper"
 	feemarkettypes "github.com/tharsis/ethermint/x/feemarket/types"
 
-	"github.com/peggyjv/gravity-bridge/module/x/gravity"
-	gravitykeeper "github.com/peggyjv/gravity-bridge/module/x/gravity/keeper"
-	gravitytypes "github.com/peggyjv/gravity-bridge/module/x/gravity/types"
+	"github.com/peggyjv/gravity-bridge/module/v2/x/gravity"
+	gravitykeeper "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/keeper"
+	gravitytypes "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/types"
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 	"github.com/crypto-org-chain/cronos/x/cronos"
@@ -435,7 +435,10 @@ func New(
 			stakingKeeper,
 			app.BankKeeper,
 			app.SlashingKeeper,
+			app.DistrKeeper,
 			sdk.DefaultPowerReduction,
+			make(map[string]string),
+			make(map[string]string),
 		)
 	}
 
