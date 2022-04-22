@@ -3321,8 +3321,8 @@
 
 ["github.com/peggyjv/gravity-bridge/module/v2"]
   sumVersion = "v2.0.0-20220421052611-ae947806716e"
-  vendorPath = "github.com/crypto-org-chain/gravity-bridge/module/v2"
   relPath = "module"
+  vendorPath = "github.com/crypto-org-chain/gravity-bridge/module/v2"
   ["github.com/peggyjv/gravity-bridge/module/v2".fetch]
     type = "git"
     url = "https://github.com/crypto-org-chain/gravity-bridge"
