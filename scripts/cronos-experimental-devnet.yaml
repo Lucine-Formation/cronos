@@ -53,4 +53,3 @@ cronos_777-1:
       feemarket:
         params:
           no_base_fee: false
-          initial_base_fee: 100000000000
