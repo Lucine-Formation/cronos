@@ -86,15 +86,15 @@ import (
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
 	appparams "github.com/cosmos/cosmos-sdk/simapp/params"
-	"github.com/cosmos/ibc-go/v2/modules/apps/transfer"
-	ibctransferkeeper "github.com/cosmos/ibc-go/v2/modules/apps/transfer/keeper"
-	ibctransfertypes "github.com/cosmos/ibc-go/v2/modules/apps/transfer/types"
-	ibc "github.com/cosmos/ibc-go/v2/modules/core"
-	ibcclient "github.com/cosmos/ibc-go/v2/modules/core/02-client"
-	ibcclientclient "github.com/cosmos/ibc-go/v2/modules/core/02-client/client"
-	porttypes "github.com/cosmos/ibc-go/v2/modules/core/05-port/types"
-	ibchost "github.com/cosmos/ibc-go/v2/modules/core/24-host"
-	ibckeeper "github.com/cosmos/ibc-go/v2/modules/core/keeper"
+	"github.com/cosmos/ibc-go/v3/modules/apps/transfer"
+	ibctransferkeeper "github.com/cosmos/ibc-go/v3/modules/apps/transfer/keeper"
+	ibctransfertypes "github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
+	ibc "github.com/cosmos/ibc-go/v3/modules/core"
+	ibcclient "github.com/cosmos/ibc-go/v3/modules/core/02-client"
+	ibcclientclient "github.com/cosmos/ibc-go/v3/modules/core/02-client/client"
+	porttypes "github.com/cosmos/ibc-go/v3/modules/core/05-port/types"
+	ibchost "github.com/cosmos/ibc-go/v3/modules/core/24-host"
+	ibckeeper "github.com/cosmos/ibc-go/v3/modules/core/keeper"
 	tmjson "github.com/tendermint/tendermint/libs/json"
 
 	evmante "github.com/tharsis/ethermint/app/ante"
@@ -108,9 +108,9 @@ import (
 	feemarketkeeper "github.com/tharsis/ethermint/x/feemarket/keeper"
 	feemarkettypes "github.com/tharsis/ethermint/x/feemarket/types"
 
-	"github.com/peggyjv/gravity-bridge/module/x/gravity"
-	gravitykeeper "github.com/peggyjv/gravity-bridge/module/x/gravity/keeper"
-	gravitytypes "github.com/peggyjv/gravity-bridge/module/x/gravity/types"
+	"github.com/peggyjv/gravity-bridge/module/v2/x/gravity"
+	gravitykeeper "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/keeper"
+	gravitytypes "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/types"
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 	"github.com/crypto-org-chain/cronos/x/cronos"
@@ -403,7 +403,7 @@ func New(
 	// Create Transfer Keepers
 	app.TransferKeeper = ibctransferkeeper.NewKeeper(
 		appCodec, keys[ibctransfertypes.StoreKey], app.GetSubspace(ibctransfertypes.ModuleName),
-		app.IBCKeeper.ChannelKeeper, &app.IBCKeeper.PortKeeper,
+		app.IBCKeeper.ChannelKeeper, app.IBCKeeper.ChannelKeeper, &app.IBCKeeper.PortKeeper,
 		app.AccountKeeper, app.BankKeeper, scopedTransferKeeper,
 	)
 
@@ -439,7 +439,10 @@ func New(
 			stakingKeeper,
 			app.BankKeeper,
 			app.SlashingKeeper,
+			app.DistrKeeper,
 			sdk.DefaultPowerReduction,
+			make(map[string]string),
+			make(map[string]string),
 		)
 	}
 
@@ -470,6 +473,7 @@ func New(
 	// Set IBC hooks
 	app.TransferKeeper = *app.TransferKeeper.SetHooks(app.CronosKeeper)
 	transferModule := transfer.NewAppModule(app.TransferKeeper)
+	transferIBCModule := transfer.NewIBCModule(app.TransferKeeper)
 
 	app.GovKeeper = govkeeper.NewKeeper(
 		appCodec, keys[govtypes.StoreKey], app.GetSubspace(govtypes.ModuleName), app.AccountKeeper, app.BankKeeper,
@@ -510,7 +514,7 @@ func New(
 
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := porttypes.NewRouter()
-	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferModule)
+	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
 	// this line is used by starport scaffolding # ibc/app/router
 	app.IBCKeeper.SetRouter(ibcRouter)
 
@@ -684,15 +688,15 @@ func New(
 
 	maxGasWanted := cast.ToUint64(appOpts.Get(srvflags.EVMMaxTxGasWanted))
 	options := evmante.HandlerOptions{
-		AccountKeeper:    app.AccountKeeper,
-		BankKeeper:       app.BankKeeper,
-		EvmKeeper:        app.EvmKeeper,
-		FeegrantKeeper:   app.FeeGrantKeeper,
-		IBCChannelKeeper: app.IBCKeeper.ChannelKeeper,
-		FeeMarketKeeper:  app.FeeMarketKeeper,
-		SignModeHandler:  encodingConfig.TxConfig.SignModeHandler(),
-		SigGasConsumer:   evmante.DefaultSigVerificationGasConsumer,
-		MaxTxGasWanted:   maxGasWanted,
+		AccountKeeper:   app.AccountKeeper,
+		BankKeeper:      app.BankKeeper,
+		EvmKeeper:       app.EvmKeeper,
+		FeegrantKeeper:  app.FeeGrantKeeper,
+		IBCKeeper:       app.IBCKeeper,
+		FeeMarketKeeper: app.FeeMarketKeeper,
+		SignModeHandler: encodingConfig.TxConfig.SignModeHandler(),
+		SigGasConsumer:  evmante.DefaultSigVerificationGasConsumer,
+		MaxTxGasWanted:  maxGasWanted,
 	}
 
 	if err := options.Validate(); err != nil {
