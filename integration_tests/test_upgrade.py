@@ -6,10 +6,11 @@ from pathlib import Path
 
 import pytest
 from dateutil.parser import isoparse
+from pystarport import ports
 from pystarport.cluster import SUPERVISOR_CONFIG_FILE
 
 from .network import Cronos, setup_custom_cronos
-from .utils import parse_events, wait_for_block, wait_for_block_time
+from .utils import parse_events, wait_for_block, wait_for_block_time, wait_for_port
 
 
 def init_cosmovisor(home):
@@ -27,7 +28,7 @@ def post_init(path, base_port, config):
     prepare cosmovisor for each node
     """
     chain_id = "cronos_777-1"
-    cfg = json.load((path / chain_id / "config.json").open())
+    cfg = json.loads((path / chain_id / "config.json").read_text())
     for i, _ in enumerate(cfg["validators"]):
         home = path / chain_id / f"node{i}"
         init_cosmovisor(home)
@@ -35,7 +36,7 @@ def post_init(path, base_port, config):
     # patch supervisord ini config
     ini_path = path / chain_id / SUPERVISOR_CONFIG_FILE
     ini = configparser.RawConfigParser()
-    ini.read_file(ini_path.open())
+    ini.read(ini_path)
     reg = re.compile(rf"^program:{chain_id}-node(\d+)")
     for section in ini.sections():
         m = reg.match(section)
@@ -113,3 +114,12 @@ def test_cosmovisor_upgrade(custom_cronos: Cronos):
 
     # block should pass the target height
     wait_for_block(cli, target_height + 2, timeout=480)
+
+    # check feemarket is enabled correctly
+    wait_for_port(ports.evmrpc_port(custom_cronos.base_port(0)))
+    w3 = custom_cronos.w3
+    # check base fee values
+    fee1 = 5000000000000 - 5000000000000 // 100000000
+    fee2 = fee1 - fee1 // 100000000
+    assert w3.eth.get_block(target_height).baseFeePerGas == fee1
+    assert w3.eth.get_block(target_height + 1).baseFeePerGas == fee2

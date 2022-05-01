@@ -53,7 +53,9 @@ class CosmosCLI:
         cmd,
     ):
         self.data_dir = data_dir
-        self._genesis = json.load(open(self.data_dir / "config" / "genesis.json"))
+        self._genesis = json.loads(
+            (self.data_dir / "config" / "genesis.json").read_text()
+        )
         self.chain_id = self._genesis["chain_id"]
         self.node_rpc = node_rpc
         self.raw = ChainCommand(cmd)
@@ -502,6 +504,12 @@ class CosmosCLI:
         return json.loads(
             self.raw("tx", "broadcast", tx_file, node=self.node_rpc, **kwargs)
         )
+
+    def broadcast_tx_json(self, tx, **kwargs):
+        with tempfile.NamedTemporaryFile("w") as fp:
+            json.dump(tx, fp)
+            fp.flush()
+            return self.broadcast_tx(fp.name)
 
     def unjail(self, addr):
         return json.loads(
